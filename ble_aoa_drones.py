@@ -20,13 +20,13 @@ def main():
     #initialize the uBLox anchor connection 1st loop
     init_com_connection = True
 
-    while(1):
+    #while(1):
 
-        azimuth, elevation = AOA.AOA_get_location_2(init_com_connection)
-        init_com_connection = False
+     #   azimuth, elevation = AOA.AOA_get_location_2(init_com_connection)
+      #  init_com_connection = False
 
-        x, y, z, x1, y2, z3 = TRI.triangulation(2, [0, 0], [3, 0], 90, int(azimuth), int(elevation))
-        print("Azimuth: ", azimuth, "  Elevation: ", elevation, " ---> Calculated cartesian coordinates Method1: " , x, y, z, "\n")
+      #  x, y, z, x1, y2, z3 = TRI.triangulation(2, [0, 0], [3, 0], 90, int(azimuth), int(elevation))
+      #  print("Azimuth: ", azimuth, "  Elevation: ", elevation, " ---> Calculated cartesian coordinates Method1: " , x, y, z, "\n")
         #print("Calculated cartesian coordinates Method2: " , x1, y2, z3, "\n")
 
 
@@ -38,6 +38,8 @@ def main():
     # Start the main window of the PyQt 
     interface_window = MainWindow()
     interface_window.start_interface()
+    #interface_window.InitWindow()
+    #interface_window.paintEvent()
     sys.exit(app.exec())
 
 

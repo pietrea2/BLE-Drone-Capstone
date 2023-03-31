@@ -10,7 +10,7 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
     x1 = pos_anchor_1[0]
     y1 = pos_anchor_1[1]
 
-    pos_anchor_2 = [3, 0]
+    pos_anchor_2 = [0.8, 0]
     x2 = pos_anchor_2[0]
     y2 = pos_anchor_2[1]
 
@@ -21,7 +21,12 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
 
 
     #Variables needed for calculus coordinate calcs
-    rho = (math.sin(math.radians(azimuth_2))*x_baseline_distance)/ (math.sin(math.radians(x_baseline_angle)))
+    denominator = (math.sin(math.radians(x_baseline_angle)))
+    if(denominator != 0):
+        rho = (math.sin(math.radians(azimuth_2))*x_baseline_distance) / denominator
+    else:
+        rho = 0
+        
     theta = azimuth1
     phi = 90 - elevation
 
@@ -39,9 +44,14 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
             #   90 - elevation = phi
 
             #Need to calculate rho:
-            x_m = rho * math.sin( math.radians(phi) ) * math.cos( math.radians(theta) )
-            y_m = rho * math.sin( math.radians(phi) ) * math.sin( math.radians(theta) )
-            z_m = rho * math.cos( math.radians(phi) )
+            if( rho != 0):
+                x_m = rho * math.sin( math.radians(phi) ) * math.cos( math.radians(theta) )
+                y_m = rho * math.sin( math.radians(phi) ) * math.sin( math.radians(theta) )
+                z_m = rho * math.cos( math.radians(phi) )
+            else:
+                x_m = math.nan
+                y_m = math.nan
+                z_m = math.nan 
     
             #return x, y, z
 
