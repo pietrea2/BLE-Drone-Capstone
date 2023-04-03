@@ -82,14 +82,20 @@ def AOA_get_location():
                 #print("Azimuth:   " + split_data[2] + "Elevation:  " + split_data[3])
                 anchor_azimuths.append(azimuth)
                 anchor_elevations.append(elevation)
+                time.sleep(0.01)
+
     
                 #print(split_data)
 
         if len(anchor_azimuths) != 0:
             #print("Anchor 0 Azimuth: " + anchor_azimuths[0] + "   Elevation:  " + anchor_elevations[0] + " Anchor 1 Azimuth:   " + anchor_azimuths[1] + "Elevation:  " + anchor_elevations[1])
             
-            
+            #TESTING SUN OUTPUT
+            #print("1: Azimuth: " + str(anchor_azimuths[0]) + " Elevation: " + str(anchor_elevations[0]));
+
+
             #print("1: Azimuth: " + str(anchor_azimuths[0]) + " Elevation: " + str(anchor_elevations[0]) + "           2: Azimuth: " + str(anchor_azimuths[1]) + " Elevation: " + str(anchor_elevations[1]))
+
             
             
             #print("Anchor 0 Azimuth: " + anchor_azimuths[0] + " Anchor 1 Azimuth:   " + anchor_azimuths[1] + " Anchor 0 Elevation:  " + anchor_elevations[0] + " Anchor 1 Elevation:  " + anchor_elevations[1])    
@@ -106,18 +112,26 @@ def AOA_get_location():
             #Re-write triangulate function for 2+ anchors
 
             
-            x, y, z, x1, y2, z3 = triangulation.triangulation(len(serial_connections), [0, 0], [0.8, 0], anchor_azimuths[0], anchor_azimuths[1], anchor_elevations[0])
+            x, y, z, x1, y2, z3 = triangulation.triangulation(len(serial_connections), [0.0, 0.0], [1.5, 0.0], anchor_azimuths[0], anchor_azimuths[1], anchor_elevations[0])
+            #x_fuck, y_fuck, z_fuck, x1_fuck, y2_fuck, z3_fuck = triangulation.triangulation(len(serial_connections), [0.0, 0.0], [1.0, 0.0], anchor_azimuths[1], anchor_azimuths[0], anchor_elevations[0])
 
             #Rounded location values
             number_of_decimals = 5
             x_round, y_round, z_round = round(x, number_of_decimals), round(y, number_of_decimals), round(z, number_of_decimals)
             x1_round, y1_round, z1_round = round(x1, number_of_decimals), round(y2, number_of_decimals), round(z3, number_of_decimals)
+            
+            #y_fucking_rounded = round(y_fuck, number_of_decimals)
 
             #print("Calculated cartesian coordinates Method1: " , x, y, z)
             #print("Calculated cartesian coordinates Method2: " , x1, y2, z3, "\n")
-            
+
+            #PRINT THE METHOD 2 VALS:
+            #print("Calculated cartesian coordinates Method1: " , x_round, y_fucking_rounded, z_round)
             print("Calculated cartesian coordinates Method1: " , x_round, y_round, z_round)
-            print("Calculated cartesian coordinates Method2: " , x1_round, y1_round, z1_round, "\n")
+            #time.sleep(0.001)
+
+
+            #print("Calculated cartesian coordinates Method2: " , x1_round, y1_round, z1_round, "\n")
 
 
 

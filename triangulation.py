@@ -6,11 +6,11 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
 
 
     #[x, y] coordinate on floor (in meters)
-    pos_anchor_1 = [0, 0]
+    #pos_anchor_1 = [0.0, 0.0]
     x1 = pos_anchor_1[0]
     y1 = pos_anchor_1[1]
 
-    pos_anchor_2 = [0.8, 0]
+    #pos_anchor_2 = [1.5, 0.0]
     x2 = pos_anchor_2[0]
     y2 = pos_anchor_2[1]
 
@@ -61,11 +61,11 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
             #https://www.omnicalculator.com/math/triangulation
 
             #x = ( (0 - pos_anchor_2[1]) + pos_anchor_2[0]*math.tan(math.radians(azimuth2)) )
-            x = ( (y1 - y2) + x2*math.tan(math.radians(azimuth2)) - x1*math.tan(math.radians(azimuth1)) ) / \
-                                ( math.tan(math.radians(azimuth2)) - math.tan(math.radians(azimuth1)) )
-
-            y = ( y1*math.tan(math.radians(azimuth2)) - y2*math.tan(math.radians(azimuth1)) - (x1 - x2)*math.tan(math.radians(azimuth2))*math.tan(math.radians(azimuth1)) ) / \
-                                                                                                    ( math.tan(math.radians(azimuth2)) - math.tan(math.radians(azimuth1)) )
+            x = ( (y1 - y2) + x2*math.tan(math.radians(90 - azimuth2)) - x1*math.tan(math.radians(90 - azimuth1)) ) / \
+                                ( math.tan(math.radians(90 - azimuth2)) - math.tan(math.radians(90 - azimuth1)) )
+                    
+            y = ( y1*math.tan(math.radians(90 - azimuth2)) - y2*math.tan(math.radians(90 - azimuth1)) - (x2 - x1)*math.tan(math.radians(90 - azimuth2))*math.tan(math.radians(90 - azimuth1)) ) / \
+                                                                                                    ( math.tan(math.radians(90 - azimuth2)) - math.tan(math.radians(90 - azimuth1)) )
 
             z =  math.sqrt( math.pow(x, 2) + math.pow(y, 2) ) / math.tan(math.radians(phi))
 
