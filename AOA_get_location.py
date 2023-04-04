@@ -112,7 +112,7 @@ def AOA_get_location():
             #Re-write triangulate function for 2+ anchors
 
             
-            x, y, z, x1, y2, z3 = triangulation.triangulation(len(serial_connections), [0.0, 0.0], [1.5, 0.0], anchor_azimuths[0], anchor_azimuths[1], anchor_elevations[0])
+            x, y, z, x1, y2, z3 = triangulation.triangulation(len(serial_connections), [1.5, 0.0], [0.0, 0.0], anchor_azimuths[0], anchor_azimuths[1], anchor_elevations[0])
             #x_fuck, y_fuck, z_fuck, x1_fuck, y2_fuck, z3_fuck = triangulation.triangulation(len(serial_connections), [0.0, 0.0], [1.0, 0.0], anchor_azimuths[1], anchor_azimuths[0], anchor_elevations[0])
 
             #Rounded location values
