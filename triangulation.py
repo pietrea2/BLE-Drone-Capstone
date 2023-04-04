@@ -47,13 +47,13 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
 
             #Need to calculate rho:
             if( rho != 0):
-                x_m = rho * m.sin( m.radians(phi) ) * m.cos( m.radians(theta) )
-                y_m = rho * m.sin( m.radians(phi) ) * m.sin( m.radians(theta) )
-                z_m = rho * m.cos( m.radians(phi) )
+                x_m1 = rho * m.sin( m.radians(phi) ) * m.cos( m.radians(theta) )
+                y_m1 = rho * m.sin( m.radians(phi) ) * m.sin( m.radians(theta) )
+                z_m1 = rho * m.cos( m.radians(phi) )
             else:
-                x_m = m.nan
-                y_m = m.nan
-                z_m = m.nan 
+                x_m1 = m.nan
+                y_m1 = m.nan
+                z_m1 = m.nan 
     
             #return x, y, z
 
@@ -63,16 +63,22 @@ def triangulation(num_of_anchors, pos_anchor_1, pos_anchor_2, azimuth1, azimuth2
             #https://www.omnicalculator.com/m/triangulation
 
             #x = ( (0 - pos_anchor_2[1]) + pos_anchor_2[0]*m.tan(m.radians(azimuth2)) )
-            x = ( (y1 - y2) + x2*m.tan(m.radians(90 - azimuth2)) - x1*m.tan(m.radians(90 - azimuth1)) ) / \
+            x_m2 = ( (y1 - y2) + x2*m.tan(m.radians(90 - azimuth2)) - x1*m.tan(m.radians(90 - azimuth1)) ) / \
                                 ( m.tan(m.radians(90 - azimuth2)) - m.tan(m.radians(90 - azimuth1)) )
                     
-            y = ( y1*m.tan(m.radians(90 - azimuth2)) - y2*m.tan(m.radians(90 - azimuth1)) - (x2 - x1)*m.tan(m.radians(90 - azimuth2))*m.tan(m.radians(90 - azimuth1)) ) / \
+            y_m2 = ( y1*m.tan(m.radians(90 - azimuth2)) - y2*m.tan(m.radians(90 - azimuth1)) - (x2 - x1)*m.tan(m.radians(90 - azimuth2))*m.tan(m.radians(90 - azimuth1)) ) / \
                                                                                                     ( m.tan(m.radians(90 - azimuth2)) - m.tan(m.radians(90 - azimuth1)) )
 
-            z =  m.sqrt( m.pow(x, 2) + m.pow(y, 2) ) / m.tan(m.radians(phi))
+            z_m2 =  m.sqrt( m.pow(x_m2, 2) + m.pow(y_m2, 2) ) / m.tan(m.radians(phi))
 
 
-        return x, y, z, x_m, y_m, z_m
+
+
+        #Round all calculated vals:
+        number_of_decimals = 4
+        x_m1_round, y_m1_round, z_m1_round = round(x_m1, number_of_decimals), round(y_m1, number_of_decimals), round(z_m1, number_of_decimals)
+        x_m2_round, y_m2_round, z_m2_round = round(x_m2, number_of_decimals), round(y_m2, number_of_decimals), round(z_m2, number_of_decimals)
+        return x_m2_round, y_m2_round, z_m2_round, x_m1_round, y_m1_round, z_m1_round
 
 
 
@@ -129,7 +135,7 @@ def triangulation_3_anchors(pos_anchor_1, pos_anchor_2, pos_anchor_3, azimuth1, 
     y_positions.append(y_A_round)
     z_positions.append(z_A_round)
 
-    
+
 
 
 

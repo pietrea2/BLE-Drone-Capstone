@@ -8,6 +8,7 @@ import triangulation
 #com_conneciton = serial.Serial('COM12', 115200, parity=serial.PARITY_NONE, rtscts=1, timeout=1, stopbits=1)
 
 def AOA_get_location():
+    print("starting1")
     print("Reading anchor data")
 
     foundPorts = get_ports()        
