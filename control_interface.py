@@ -1,7 +1,7 @@
 from enum import Enum
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
-import control
+from control import *
 
 
 # All available command types
@@ -32,10 +32,9 @@ class Command():
         self.value = value
 
 
-def control(droneID: int, command: Command, val: int = 0):
+def control(droneID: int, command: CMD, val: int = 0):
     print("Command: ", command)
-
-
+    handle_control(command, val)
 
 
 class MainWindow(QMainWindow):
@@ -86,6 +85,7 @@ class MainWindow(QMainWindow):
     # Show the interface
     def start_interface(self):
         print("Getting the control information from the user to send to the drones...")
+        self.window.setWindowTitle("Drone Control Interface")
         self.window.show()
         
     # Button click controller. Send control signal when value set
@@ -94,22 +94,30 @@ class MainWindow(QMainWindow):
         # print("button: ", button)
 
         if button == "ARM":
-            control(self.drones.currentText(), CMD.ARM)
+            # control(self.drones.currentText(), CMD.ARM)
+            start()
         elif button == "DISARM":
-            control(self.drones.currentText(), CMD.DISARM)
+            # control(self.drones.currentText(), CMD.DISARM)
+            disarm()
         elif button == "LIFTOFF":
-            control(self.drones.currentText(), CMD.LIFTOFF, self.LIFTOFFVal.text())
+            takeoff()
+            # control(self.drones.currentText(), CMD.LIFTOFF, self.LIFTOFFVal.text())
         elif button == "LAND":
-            control(self.drones.currentText(), CMD.LAND)
+            land()
+            # control(self.drones.currentText(), CMD.LAND)
         elif button == "FWD/BACK":
-            cmd = CMD.FORWARD if int(self.LIFTOFFVal.text()) > 0 else CMD.BACKWARD
-            control(self.drones.currentText(), cmd, self.FBVal.text())
+            print("Value: ", self.FBVal.text())
+            val = int(self.FBVal.text())
+            cmd = forward(val) if val > 0 else backward(-val)
+            # control(self.drones.currentText(), cmd, self.FBVal.text())
         elif button == "LEFT/RIGHT":
-            cmd = CMD.RIGHT if int(self.LRVal.text()) > 0 else CMD.LEFT
-            control(self.drones.currentText(), cmd, self.LRVal.text())
+            val = int(self.LRVal.text())
+            cmd = left(val) if val > 0 else right(-val)
+            # control(self.drones.currentText(), cmd, self.LRVal.text())
         elif button == "CLIMB/DSND":
-            cmd = CMD.CLIMB if int(self.CDVal.text()) > 0 else CMD.DESCEND
-            control(self.drones.currentText(), cmd, self.CDVal.text())
+            val = int(self.CDVal.text())
+            cmd = up(val) if val > 0 else down(-val)
+            # control(self.drones.currentText(), cmd, self.CDVal.text())
         
     
     
