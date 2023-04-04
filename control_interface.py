@@ -3,6 +3,19 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from control import *
 
+import sys
+from PyQt5 import QtWidgets
+from PyQt5 import QtCore
+from PyQt5 import QtGui
+from PyQt5.QtWidgets import QMenu
+from PyQt5.QtGui import QKeySequence
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QCursor
+
+from PyQt5.QtGui import QPainter, QBrush, QPen
+
+
+
 
 # All available command types
 class CMD(Enum):
@@ -81,6 +94,17 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.CDVal, 7, 1)
         self.window.setLayout(self.layout)
 
+        self.InitWindow()
+
+    def InitWindow(self):
+        self.setGeometry(100, 100, 600, 350)
+        self.show
+
+    def paintEvent(self):
+        painter = QPainter(self)
+        painter.setPen( QPen(Qt.darkBlue, 2, Qt.SolidLine) )
+        painter.drawLine(0, 0, 20, 20)
+
 
     # Show the interface
     def start_interface(self):
@@ -115,9 +139,34 @@ class MainWindow(QMainWindow):
             cmd = left(val) if val > 0 else right(-val)
             # control(self.drones.currentText(), cmd, self.LRVal.text())
         elif button == "CLIMB/DSND":
+<<<<<<< HEAD
             val = int(self.CDVal.text())
             cmd = up(val) if val > 0 else down(-val)
             # control(self.drones.currentText(), cmd, self.CDVal.text())
+=======
+            cmd = CMD.CLIMB if int(self.CDVal.text()) > 0 else CMD.DESCEND
+            control(self.drones.currentText(), cmd, self.CDVal.text())
+
+
+
+    class QS(QtWidgets.QGraphicsScene):
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+            width = 2
+            height = 2
+            self.setSceneRect(0, 0, width, height)
+            self.setItemIndexMethod(QtWidgets.QGraphicsScene.NoIndex)
+
+            for x in range(0,2+1):
+                xc = x * 2
+                self.addLine(xc,0,xc,height)
+
+            for y in range(0,2+1):
+                yc = y * 2
+                self.addLine(0,yc,width,yc)
+>>>>>>> 5b4846bed0a71a17565a51dbad833bd35399cd0b
         
     
     

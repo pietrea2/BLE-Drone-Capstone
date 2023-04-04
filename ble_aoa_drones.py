@@ -6,12 +6,18 @@
 # control_interface.py: terminal or graphical interface for controlling the drones (arming & moving around)
 # control.py: main entry point for the control system for the drones
 
-import AOA_get_location as AOA
+# import AOA_get_location as AOA
+import AOA_get_location_VER_2 as AOA_V2
 from control_interface import *
 import control
 import triangulation as TRI
 import sys
+import threading
+import time
 
+# [x, y, z]
+# AOA_V2.drone_coord
+#AOA_V2.lock
 
 
 def main():
@@ -20,14 +26,30 @@ def main():
     #initialize the uBLox anchor connection 1st loop
     init_com_connection = True
 
-    while(1):
+    #while(1):
 
-        azimuth, elevation = AOA.AOA_get_location_2(init_com_connection)
-        init_com_connection = False
+     #   azimuth, elevation = AOA.AOA_get_location_2(init_com_connection)
+      #  init_com_connection = False
 
-        x, y, z, x1, y2, z3 = TRI.triangulation(2, [0, 0], [3, 0], 90, int(azimuth), int(elevation))
-        print("Azimuth: ", azimuth, "  Elevation: ", elevation, " ---> Calculated cartesian coordinates Method1: " , x, y, z, "\n")
+      #  x, y, z, x1, y2, z3 = TRI.triangulation(2, [0, 0], [3, 0], 90, int(azimuth), int(elevation))
+      #  print("Azimuth: ", azimuth, "  Elevation: ", elevation, " ---> Calculated cartesian coordinates Method1: " , x, y, z, "\n")
         #print("Calculated cartesian coordinates Method2: " , x1, y2, z3, "\n")
+
+    thread = threading.Thread(target=AOA_V2.AOA_get_location, args=())
+    thread.daemon = True
+    thread.start()
+    print("started thread")
+    # thread.join()
+
+
+    while 1:
+        AOA_V2.lock.acquire()
+        print("acquired lock")
+        print(AOA_V2.drone_coord)
+        AOA_V2.lock.release()
+        time.sleep(1)
+
+    
 
 
 
@@ -38,7 +60,11 @@ def main():
     # Start the main window of the PyQt 
     interface_window = MainWindow()
     interface_window.start_interface()
+    #interface_window.InitWindow()
+    #interface_window.paintEvent()
     sys.exit(app.exec())
+
+    #thread.kill()
 
 
 if __name__ == "__main__":
