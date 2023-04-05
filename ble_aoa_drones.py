@@ -32,12 +32,12 @@ def main():
     # thread.join()
 
 
-    while 1:
-        AOA_V2.lock.acquire()
-        print("acquired lock")
-        print(AOA_V2.drone_coord)
-        AOA_V2.lock.release()
-        time.sleep(1)
+    # while 1:
+    #     AOA_V2.lock.acquire()
+    #     print("acquired lock")
+    #     print(AOA_V2.drone_coord)
+    #     AOA_V2.lock.release()
+    #     time.sleep(1)
 
     
 

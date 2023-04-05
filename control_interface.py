@@ -1,7 +1,16 @@
 from enum import Enum
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QTimer
 from control import *
+
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import matplotlib.pyplot as plt
+
+import numpy as np
+
+import AOA_get_location_VER_2 as aoa
+import threading
 
 
 # All available command types
@@ -62,6 +71,7 @@ class MainWindow(QMainWindow):
         self.CDButton = QPushButton("CLIMB/DSND", self)
         self.CDButton.clicked.connect(self.control_clicked)
         self.CDVal = QLineEdit()
+        self.droneLoc = QLabel("Location: ", self)
 
         # Add widgets to layout
         self.window = QWidget()
@@ -79,15 +89,49 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.LRVal, 6, 1)
         self.layout.addWidget(self.CDButton, 7, 0)
         self.layout.addWidget(self.CDVal, 7, 1)
+        self.layout.addWidget(self.droneLoc, 8, 0, 1, 2, alignment=Qt.AlignCenter)
+        
+        
+        # Add plot
+        self.fig = Figure()
+        self.canvas = FigureCanvas(self.fig)
+        self.axes = self.fig.add_subplot(111, projection='3d')
+        self.axes.set_xlim([-0.1, 0.1])
+        self.axes.set_ylim([-0.1, 0.1])
+        self.axes.set_zlim([-0.1, 0.1])
+        self.layout.addWidget(self.canvas, 0, 2, 20, 1)
+        
         self.window.setLayout(self.layout)
+
 
 
     # Show the interface
     def start_interface(self):
         print("Getting the control information from the user to send to the drones...")
         self.window.setWindowTitle("Drone Control Interface")
+
+        self.timer = QTimer()
+        self.location_update()
+        self.timer.timeout.connect(self.location_update)
+        self.timer.start(500)
         self.window.show()
+
+
+    # Update drone location
+    def location_update(self):
+        aoa.lock.acquire()
+        coord = aoa.drone_coord
+        aoa.lock.release()
+        # print("coordinates: ", coord)
         
+        self.droneLoc.setText(f"Drone Location: {coord}")
+        self.axes.cla()
+        self.axes.set_xlim([-0.1, 0.1])
+        self.axes.set_ylim([-0.1, 0.1])
+        self.axes.set_zlim([-0.1, 0.1])
+        self.axes.plot(coord[0],coord[1],coord[2], marker='x')
+        self.canvas.draw()
+
     # Button click controller. Send control signal when value set
     def control_clicked(self):
         button = self.sender().text()
