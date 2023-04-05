@@ -53,8 +53,8 @@ def AOA_get_location():
         #split_data = line.decode('utf8').strip('\r\n').split(',')
         #[0] = <ed_instance_id>           ---> 6-byte Eddystone instance id
         #[1] = <rssi>                     ---> RSSI = Received Signal Strength Indicator,
-        #[2] = <angle_azimuth>            ---> Azimuth angle in range -90 to 90 °C
-        #[3] = <angle_elevation>          ---> Elevation angle in range -90 to 90 °C
+        #[2] = <angle_azimuth>            ---> Azimuth angle in range -90 to 90°
+        #[3] = <angle_elevation>          ---> Elevation angle in range -90 to 90°
         #[4] = <notused>
         #[5] = <channel>                  ---> Channel from which the packet angle was calculated
         #[6] = <anchor_id>                ---> The value set by +UDFCFG param_tag 4
