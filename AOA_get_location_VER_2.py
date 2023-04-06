@@ -204,7 +204,7 @@ def AOA_get_location():
                     x_m2, y_m2, z_m2 = \
                         triangulation.triangulation_3_anchors(anchor_1_pos, anchor_2_pos, anchor_3_pos, anchor_azimuths[0], anchor_azimuths[1], anchor_azimuths[2], average_elevation)
                 
-                print("Calculated cartesian coordinates Method 2: " , x_m2, y_m2, z_m2)
+                # print("Calculated cartesian coordinates Method 2: " , x_m2, y_m2, z_m2)
 
                 #print("Calculated cartesian coordinates Method 2: " , x_m2+17.0, y_m2+17.0, z_m2)
 
@@ -303,7 +303,7 @@ def AOA_get_location():
 
                     lock.acquire()
                     drone_coord = [average_x_pos, average_y_pos, average_z_pos]
-                    print(drone_coord)
+                    # print(drone_coord)
                     lock.release()
                     # print("killing thread")
 
@@ -361,7 +361,7 @@ def AOA_get_location():
 
                     lock.acquire()
                     drone_coord = [average_x_pos, average_y_pos, average_z_pos]
-                    print(drone_coord)
+                    # print(drone_coord)
 
                     
                     # with open('Drone Test.txt', 'w') as f:
@@ -451,7 +451,7 @@ def AOA_get_location():
 
                     lock.acquire()
                     drone_coord = [x_m2_from_ave_angles, y_m2_from_ave_angles, z_m2_from_ave_angles]
-                    print(drone_coord)
+                    # print(drone_coord)
                     lock.release()
 
                 anchor_azimuths.clear()
@@ -504,7 +504,7 @@ def AOA_get_location():
 
                     lock.acquire()
                     drone_coord = [x_m2_from_ave_angles, y_m2_from_ave_angles, z_m2_from_ave_angles]
-                    print(drone_coord)
+                    # print(drone_coord)
                     lock.release()
 
                     # if(printing_every_n % AVERAGE_COUNTER):

@@ -61,8 +61,8 @@ class MainWindow(QMainWindow):
         super().__init__()
         
         # fence: [[x_min, x_max],[y_min, y_max],[z_min, z_max]] (in cm)
-        self.fence = [[0, 200], [0, 200], [0, 200]]
-        
+        self.fence = [[0, 300], [0, 300], [-200, 200]]
+        self.flying = False
 
         # Initialize all widgets
         # self.lim = QLineEdit(self)
@@ -87,6 +87,7 @@ class MainWindow(QMainWindow):
         self.CDButton.clicked.connect(self.control_clicked)
         self.CDVal = QLineEdit()
         self.droneLoc = QLabel("Location: ", self)
+        self.batt = QLabel("Battery: ", self)
 
         self.forw = QPushButton("F", self)
         self.forw.pressed.connect(lambda: self.rc_ble(0, 100, 0, 0))
@@ -142,7 +143,7 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.down, 10,3)
         self.layout.addWidget(self.yawl, 9,0)
         self.layout.addWidget(self.yawr, 9,2)
-
+        self.layout.addWidget(self.batt, 11,0)
 
         
         # Add plot
@@ -220,8 +221,19 @@ class MainWindow(QMainWindow):
         self.canvas.draw()
 
         # Fix location if the drone is outside the geofence
-        # target = self.fix_location(coord)
-        # go(target)
+        if self.flying:
+            target = self.fix_location(coord)
+            self.batt.setText(f"Battery: {get_battery()}")
+            need_fix = False
+            for coord in target:
+                if abs(coord) >= 20: 
+                    need_fix = True
+                    break
+            if need_fix:
+                print("Need drone location to go to: ", target)
+                go(target)
+            else:
+                stop()
 
 
     # Returns the coordinate change needed to fix the drone's location 
@@ -229,16 +241,19 @@ class MainWindow(QMainWindow):
         # Need to go to specific target
         if target:
             for i in range(3):
-                target[i] = target[i] - coord[i]
+                target[i] = int(target[i] - coord[i])
             return target
         
         # Need to stay within geofence
         target = [0,0,0]
         for i in range(3):
             if coord[i] <= self.fence[i][0]:
-                target[i] = self.fence[i][0] - coord[i] + 20
+                target[i] = int(self.fence[i][0] - coord[i] + 20)
             elif coord[i] >= self.fence[i][1]:
-                target[i] = self.fence[i][0] - coord[i] - 20
+                target[i] = int(self.fence[i][1] - coord[i] - 20)
+
+            if abs(target[i]) >= 1000: target[i] = 0
+
         return target
 
     def rc_ble(self, roll, pitch, throttle, yaw):
@@ -259,11 +274,14 @@ class MainWindow(QMainWindow):
         elif button == "DISARM":
             # control(self.drones.currentText(), CMD.DISARM)
             disarm()
+            self.flying = False
         elif button == "LIFTOFF":
             takeoff()
+            self.flying = True
             # control(self.drones.currentText(), CMD.LIFTOFF, self.LIFTOFFVal.text())
         elif button == "LAND":
             land()
+            self.flying = False
             # control(self.drones.currentText(), CMD.LAND)
         elif button == "FWD/BACK":
             print("Value: ", self.FBVal.text())

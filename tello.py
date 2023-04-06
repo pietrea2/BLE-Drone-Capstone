@@ -118,7 +118,9 @@ def get_battery():
     response = response.strip()
     # Check the response matches what we expected
     match = re.match(r'^[0-9]*$', response)
-    assert match, "Drone did not respond with an integer value."
+    if not match:
+        return "weird val"
+    # assert match, "Drone did not respond with an integer value."
     return int(response)
 
 def get_mission_pad():
@@ -243,7 +245,10 @@ def rc(a, b, c, d):
 
 def go(coords):
     _send("stop")
-    send_and_wait(f"go {-coords[1]} {-coords[0]} {coords[2]} 100")
+    _send(f"go {coords[1]} {-coords[0]} {coords[2]} 100")
+
+def stop():
+    _send("stop")
 
 class _VideoStream:
     started = False
