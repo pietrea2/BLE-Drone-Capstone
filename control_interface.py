@@ -61,7 +61,7 @@ class MainWindow(QMainWindow):
         super().__init__()
         
         # fence: [[x_min, x_max],[y_min, y_max],[z_min, z_max]] (in cm)
-        self.fence = [[0, 300], [0, 300], [-200, 200]]
+        self.fence = [[0, 300], [0, 350], [-200, 200]]
         self.flying = False
 
         # Initialize all widgets
@@ -153,7 +153,7 @@ class MainWindow(QMainWindow):
         self.axes.set_xlim(self.fence[0])
         self.axes.set_ylim(self.fence[1])
         self.axes.set_zlim(self.fence[2])
-        self.layout.addWidget(self.canvas, 0, 4, 40, 1)
+        self.layout.addWidget(self.canvas, 0, 4, 40, 2)
 
         # self.fig2d = Figure()
         # self.canvas2d = FigureCanvas(self.fig2d)
