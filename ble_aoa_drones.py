@@ -13,7 +13,7 @@ import control
 import triangulation as TRI
 import sys
 import threading
-import time
+import time 
 
 # [x, y, z]
 # AOA_V2.drone_coord
@@ -32,12 +32,12 @@ def main():
     # thread.join()
 
 
-    while 1:
-        AOA_V2.lock.acquire()
-        print("acquired lock")
-        print(AOA_V2.drone_coord)
-        AOA_V2.lock.release()
-        time.sleep(1)
+    # while 1:
+    #     AOA_V2.lock.acquire()
+    #     print("acquired lock")
+    #     print(AOA_V2.drone_coord)
+    #     AOA_V2.lock.release()
+    #     time.sleep(1)
 
     
 
@@ -45,13 +45,13 @@ def main():
 
 
     # Iniaialize the application
-    app = QApplication([])
+    app = QApplication(sys.argv)
 
     # Start the main window of the PyQt 
     interface_window = MainWindow()
-    interface_window.start_interface()
     #interface_window.InitWindow()
     #interface_window.paintEvent()
+    interface_window.show()
     sys.exit(app.exec())
 
     #thread.kill()

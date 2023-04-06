@@ -4,7 +4,7 @@ import serial.tools.list_ports
 import triangulation
 from statistics import mean
 import threading as t
-
+import random
 
 
 
@@ -26,7 +26,15 @@ def AOA_get_location():
     #average_method = 2 -> Rolling Average of x, y, z data
     #average_method = 3 -> Rolling Average of angle data
 
-
+    # while(1):
+    #     time.sleep(1)
+    #     rand_x = random.randrange(0,200,1)
+    #     rand_y = random.randrange(0,200,1)
+    #     rand_z = random.randrange(0,200,1)
+    #     lock.acquire()
+    #     drone_coord =[rand_x,rand_y,rand_z]
+    #     lock.release()
+        
     #====================ANCHORS INIT CONNECTION===========================================
     #======================================================================================
     print("Reading Anchor Init Data")

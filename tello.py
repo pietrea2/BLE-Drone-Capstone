@@ -84,7 +84,7 @@ def disarm():
     """Tell the drone to stop and land"""
     _send("stop")
     land()
-        
+
 def takeoff():
     """Sends the command to the drone to take off."""
     response = send_and_wait("takeoff")
@@ -238,6 +238,12 @@ def flip_right():
     # TODO: Assert battery is high enough to perform flip before attempting
     send_and_wait("flip r")
 
+def rc(a, b, c, d):
+    _send(f"rc {a} {b} {c} {d}")
+
+def go(coords):
+    _send("stop")
+    send_and_wait(f"go {-coords[1]} {-coords[0]} {coords[2]} 100")
 
 class _VideoStream:
     started = False
