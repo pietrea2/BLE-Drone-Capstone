@@ -117,6 +117,9 @@ class MainWindow(QMainWindow):
         self.yawr.pressed.connect(lambda: self.rc_ble(0, 0, 0, 100))
         self.yawr.released.connect(lambda: rc(0, 0, 0, 0))
 
+        self.stop = QPushButton("STOP", self)
+        self.stop.clicked.connect(stop)
+
         # Add widgets to layout
         self.window = QWidget()
         self.setCentralWidget(self.window)
@@ -134,7 +137,7 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.LRVal, 6, 1)
         self.layout.addWidget(self.CDButton, 7, 0)
         self.layout.addWidget(self.CDVal, 7, 1)
-        self.layout.addWidget(self.droneLoc, 8, 0, 1, 2, alignment=Qt.AlignCenter)
+        self.layout.addWidget(self.droneLoc, 8, 0, 1, 3, alignment=Qt.AlignCenter)
         self.layout.addWidget(self.forw, 9,1)
         self.layout.addWidget(self.back, 10,1)
         self.layout.addWidget(self.left, 10,0)
@@ -143,7 +146,8 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.down, 10,3)
         self.layout.addWidget(self.yawl, 9,0)
         self.layout.addWidget(self.yawr, 9,2)
-        self.layout.addWidget(self.batt, 11,0)
+        self.layout.addWidget(self.batt, 11,0,1,2)
+        self.layout.addWidget(self.stop, 12,0,1,4)
 
         
         # Add plot

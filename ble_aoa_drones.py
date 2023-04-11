@@ -45,6 +45,7 @@ def main():
 
 
     # Iniaialize the application
+
     app = QApplication(sys.argv)
 
     # Start the main window of the PyQt 

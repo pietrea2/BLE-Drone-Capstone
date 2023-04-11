@@ -118,10 +118,12 @@ def AOA_get_location():
     a = 1
     while a:
 
-
+        anchor_azimuths = ['n','n','n']
+        anchor_elevations = ['n','n','n']
+        samples = 0
         #STEP 1: Poll through all anchors & Get list of azimuths and elevations
         for serial_con_read in serial_connections:
-            
+            # print(serial_con_read.port)
             line = serial_con_read.readline()
             anchor_read_lines.append( line )
 
@@ -144,8 +146,24 @@ def AOA_get_location():
                 elevation = float(split_data[3]) #Extract elevation
 
                 #For Method 1: average of triangulated data
-                anchor_azimuths.append(azimuth)
-                anchor_elevations.append(elevation)
+                
+                anchor_num = 0
+                if (serial_con_read.port == "COM12"): # Anchor 1
+                    # print("port: ",   serial_con_read.port)
+                    anchor_num = 0    
+
+                elif (serial_con_read.port == "COM3"): # Anchor 2
+                    anchor_num = 1
+                    # print("port: ",   serial_con_read.port)
+
+                elif (serial_con_read.port == "COM8"):
+                    anchor_num = 2
+                    # print("port: ",   serial_con_read.port)
+
+                anchor_azimuths[anchor_num] = azimuth
+                anchor_elevations[anchor_num] = elevation
+                samples += 1
+
 
                 #For Method 2: anchor angle average
                 #Store anchor angles in their seperate lists
@@ -171,8 +189,8 @@ def AOA_get_location():
                 
             
 
-        if len(anchor_azimuths) != 0:
-            
+        if samples == 3:
+            samples = 0
             #TRIANGULATION TEST
             if(average_method == 4):
 
@@ -219,7 +237,6 @@ def AOA_get_location():
                 anchor_3_azimuths.clear()
                 anchor_3_elevations.clear()
                 
-
 
             #Averaging Method 1:
             #Average of every N (x, y, z) data
@@ -314,8 +331,6 @@ def AOA_get_location():
                 anchor_2_elevations.clear()
                 anchor_3_azimuths.clear()
                 anchor_3_elevations.clear()
-
-
 
 
             #Averaging Method 3:
