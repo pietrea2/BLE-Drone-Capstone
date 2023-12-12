@@ -1,5 +1,8 @@
 # Bluetooth-Localized Drones
 
+Locating and controlling drones using Bluetooth AOA (Angle Of Arrival) Technology.
+
+
 University of Toronto Computer/Electrical Engineering Capstone Project proposed and developed by:
 
 - Mohammad Ahmed
