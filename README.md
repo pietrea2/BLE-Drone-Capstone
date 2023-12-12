@@ -1,8 +1,11 @@
+
 # Bluetooth-Localized Drones
 
-Locating and controlling drones using Bluetooth AOA (Angle Of Arrival) Technology.
 
-![Drone](https://github.com/pietrea2/BLE-Drone-Capstone/blob/main/Documents/images/title.png)
+Locating and controlling drones using Bluetooth AOA (Angle Of Arrival) Technology.
+<p align="center">
+<img src="https://github.com/pietrea2/BLE-Drone-Capstone/blob/main/Documents/images/title.png"/>
+</p>
 
 University of Toronto Computer/Electrical Engineering Capstone Project proposed and developed by:
 
